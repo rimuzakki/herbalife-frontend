@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Table, Input, Button, Icon } from 'antd';
+import { Layout, Table, Input, Button, Icon, message, Card, Row, Col } from 'antd';
 import Highlighter from 'react-highlight-words';
 import Api from './../../../Api';
 import WrappedFormPeserta from './../../../Components/Layout/Partial/FormPeserta'
@@ -17,12 +17,31 @@ class Index extends Component {
       modalData: '',
       response: {},
       isAddUser: false,
-      isEdituser: false
+      isEdituser: false,
+      status: 'create',
+      modalKey: Math.random(),
+      statusTotal: '',
+      statusSudah: '',
+      statusBelum: '',
+      statusAll: [],
     }
   }
 
   componentDidMount() {
     this.getPesertaData();
+    this.getStatusCount();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.statusAll === this.state.statusAll) {
+      this.getStatusCount();
+      // console.log('prev', prevState.statusAll);
+      // console.log('now', this.state.statusAll)
+    }
+
+    // if (this.state.pesertaData && prevState.pesertaData !== this.state.pesertaData) {
+    //   this.getPesertaData();
+    // }
   }
 
   getPesertaData = () => {
@@ -31,6 +50,19 @@ class Index extends Component {
         // console.log('get', data);
         this.setState({
           pesertaData: data,
+        })
+      }).catch(err => console.log(err))
+  }
+
+  getStatusCount = () => {
+    Api.get('statusEntryCount')
+      .then(res => {
+        console.log('status', res.data[0]);
+        this.setState({
+          statusTotal: res.data[0].total,
+          statusBelum: res.data[0].belum,
+          statusSudah: res.data[0].sudah,
+          statusAll: res.data[0],
         })
       }).catch(err => console.log(err))
   }
@@ -49,10 +81,33 @@ class Index extends Component {
       }).catch(err => console.log(err))
   }
 
-  showModal = (record) => {
+  createPesertaData = (values) => {
+    Api.post('peserta', values)
+      .then(result => {
+        console.log('resultPOST', result);
+        console.log('resultPOSTData', result.data);
+        message.info('Peserta telah ditambahkan');
+        this.getPesertaData();
+        this.setState({
+          response: result,
+        })
+      }).catch(err => console.log(err))
+  }
+
+  showModalEdit = (record) => {
     this.setState({
       visible: true,
       modalData: record,
+      status: 'edit',
+    });
+  };
+
+  showModalCreate = () => {
+    this.setState({
+      visible: true,
+      modalData: [],
+      status: 'create',
+      modalKey: Math.random(),
     });
   };
 
@@ -72,13 +127,19 @@ class Index extends Component {
 
   handleCreate = () => {
     const { form } = this.formRef.props;
+    const { status } = this.state;
     form.validateFields((err, values) => {
       if (err) {
         return;
       }
 
-      console.log('Received values of form: ', values);
-      this.editPesertaData(values);
+      if (status === 'create') {
+        console.log('Received values of Create: ', values);
+        this.createPesertaData(values);
+      } else {
+        console.log('Received values of Edit: ', values);
+        this.editPesertaData(values);
+      }
       form.resetFields();
       this.setState({ visible: false });
     });
@@ -152,6 +213,35 @@ class Index extends Component {
     this.setState({ searchText: '' });
   }
 
+  viewCard = () => {
+    const { statusTotal, statusBelum, statusSudah } = this.state;
+    return (
+      <div className="status-box">
+        <Row gutter={16}>
+
+          <Col span={8}>
+            <Card title="Total Data Peserta" bordered={false}>
+              <h3>{statusTotal} Peserta</h3>
+            </Card>
+          </Col>
+
+          <Col span={8}>
+            <Card title="Sudah Verifikasi" bordered={false}>
+              <h3>{statusSudah} Peserta</h3>
+            </Card>
+          </Col>
+
+          <Col span={8}>
+            <Card title="Belum Verifikasi" bordered={false}>
+              <h3>{statusBelum} Peserta</h3>
+            </Card>
+          </Col>
+
+        </Row>
+      </div>
+    )
+  }
+
 
   render() {
     const columns = [
@@ -180,6 +270,14 @@ class Index extends Component {
         key: 'email',
         ...this.getColumnSearchProps('email'),
       },
+      {
+        title: 'Hadir',
+        dataIndex: 'hadir',
+        key: 'hadir',
+        render: (text, record) => (
+          record.hadir === "1" ? "Hadir" : "Belum Hadir"
+        ),
+      },
 
       // {
       //   title: 'Action',
@@ -198,7 +296,8 @@ class Index extends Component {
     // console.log('searchText', searchText)
     return (
       <Content style={{ padding: '0 50px', marginTop: 100 }}>
-        <Button onClick={() => this.showModal()}>
+        {this.viewCard()}
+        <Button icon="plus" type="primary" className="btnCreate" onClick={this.showModalCreate}>
           Tambah Peserta
         </Button>
         <Table
@@ -207,8 +306,8 @@ class Index extends Component {
           onRow={(record, rowIndex) => {
             return {
               onClick: event => {
-
-                this.showModal(record)
+                console.log('rowIndex', rowIndex)
+                this.showModalEdit(record)
               },
             };
           }}

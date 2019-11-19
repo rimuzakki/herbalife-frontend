@@ -27,3 +27,17 @@
   padding: 8px 24px;
   height: 300px;
 }
+.ant-table-row {
+  cursor: pointer;
+}
+.btnCreate {
+  margin-bottom: 20px;
+}
+
+.ant-table-thead > tr:first-child > th:first-child {
+  border-top-left-radius: 4px;
+}
+
+.status-box {
+  margin-bottom: 30px;
+}
