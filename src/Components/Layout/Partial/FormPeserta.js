@@ -16,7 +16,7 @@ class FormPeserta extends Component {
         okText="Simpan"
         onCancel={onCancel}
         onOk={onCreate}
-        width={1000}
+        width={'80%'}
       >
         <Form layout="vertical">
           <Row>

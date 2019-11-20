@@ -7,7 +7,7 @@ const { Footer } = Layout;
 class FooterApp extends Component {
   render() {
     return (
-      <Footer style={{ textAlign: 'center' }}>2019</Footer>
+      <Footer style={{ textAlign: 'center' }}>Event Herbalife 2019</Footer>
     );
   }
 }

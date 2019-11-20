@@ -24,12 +24,14 @@ class Index extends Component {
       statusSudah: '',
       statusBelum: '',
       statusAll: [],
+      // statusByKelompok: [],
     }
   }
 
   componentDidMount() {
     this.getPesertaData();
     this.getStatusCount();
+    this.getStatusCountByKelompok();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -63,6 +65,16 @@ class Index extends Component {
           statusBelum: res.data[0].belum,
           statusSudah: res.data[0].sudah,
           statusAll: res.data[0],
+        })
+      }).catch(err => console.log(err))
+  }
+
+  getStatusCountByKelompok = () => {
+    Api.get('statusEntryCountByKelompok')
+      .then(({ data }) => {
+        console.log('get', data);
+        this.setState({
+          statusByKelompok: data,
         })
       }).catch(err => console.log(err))
   }
@@ -292,6 +304,29 @@ class Index extends Component {
       // },
     ];
 
+    // const columnsKelompok = [
+    //   {
+    //     title: 'Level',
+    //     dataIndex: 'kelompok',
+    //     key: 'kelompok',
+    //   },
+    //   {
+    //     title: 'Total',
+    //     dataIndex: 'total',
+    //     key: 'total',
+    //   },
+    //   {
+    //     title: 'Sudah Verifikasi',
+    //     dataIndex: 'sudah',
+    //     key: 'sudah',
+    //   },
+    //   {
+    //     title: 'Belum Verifikasi',
+    //     dataIndex: 'belum',
+    //     key: 'belum',
+    //   },
+    // ];
+
     const { pesertaData, modalData } = this.state;
     // console.log('searchText', searchText)
     return (
@@ -312,6 +347,11 @@ class Index extends Component {
             };
           }}
         />
+
+        {/* <Table
+          columns={columnsKelompok}
+          dataSource={statusByKelompok}
+        /> */}
 
         {/* <Modal
           title="Basic Modal"
