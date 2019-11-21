@@ -59,7 +59,7 @@ class Index extends Component {
   getStatusCount = () => {
     Api.get('statusEntryCount')
       .then(res => {
-        console.log('status', res.data[0]);
+        // console.log('status', res.data[0]);
         this.setState({
           statusTotal: res.data[0].total,
           statusBelum: res.data[0].belum,
@@ -72,7 +72,7 @@ class Index extends Component {
   getStatusCountByKelompok = () => {
     Api.get('statusEntryCountByKelompok')
       .then(({ data }) => {
-        console.log('get', data);
+        // console.log('get', data);
         this.setState({
           statusByKelompok: data,
         })
@@ -82,8 +82,8 @@ class Index extends Component {
   editPesertaData = (values) => {
     Api.put('peserta', values)
       .then(result => {
-        console.log('resultPut', result);
-        console.log('resultPutData', result.data);
+        // console.log('resultPut', result);
+        // console.log('resultPutData', result.data);
         this.getPesertaData();
         this.setState({
           response: result,
@@ -96,8 +96,8 @@ class Index extends Component {
   createPesertaData = (values) => {
     Api.post('peserta', values)
       .then(result => {
-        console.log('resultPOST', result);
-        console.log('resultPOSTData', result.data);
+        // console.log('resultPOST', result);
+        // console.log('resultPOSTData', result.data);
         message.info('Peserta telah ditambahkan');
         this.getPesertaData();
         this.setState({
@@ -124,14 +124,14 @@ class Index extends Component {
   };
 
   handleOk = e => {
-    console.log(e);
+    // console.log(e);
     this.setState({
       visible: false,
     });
   };
 
   handleCancel = e => {
-    console.log(e);
+    // console.log(e);
     this.setState({
       visible: false,
     });
@@ -146,10 +146,10 @@ class Index extends Component {
       }
 
       if (status === 'create') {
-        console.log('Received values of Create: ', values);
+        // console.log('Received values of Create: ', values);
         this.createPesertaData(values);
       } else {
-        console.log('Received values of Edit: ', values);
+        // console.log('Received values of Edit: ', values);
         this.editPesertaData(values);
       }
       form.resetFields();
@@ -341,7 +341,7 @@ class Index extends Component {
           onRow={(record, rowIndex) => {
             return {
               onClick: event => {
-                console.log('rowIndex', rowIndex)
+                // console.log('rowIndex', rowIndex)
                 this.showModalEdit(record)
               },
             };
