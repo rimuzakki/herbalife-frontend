@@ -274,13 +274,13 @@ class Index extends Component {
         title: 'No telepon',
         dataIndex: 'no_telp',
         key: 'no_telp',
-        // ...this.getColumnSearchProps('no_telp'),
+        ...this.getColumnSearchProps('no_telp'),
       },
       {
         title: 'Pentransfer',
         dataIndex: 'nama_transfer',
         key: 'nama_transfer',
-        // ...this.getColumnSearchProps('nama_transfer'),
+        ...this.getColumnSearchProps('nama_transfer'),
       },
       // {
       //   title: 'Email',
