@@ -206,7 +206,7 @@ class Index extends Component {
         highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
         searchWords={[this.state.searchText]}
         autoEscape
-        textToHighlight={text.toString()}
+        textToHighlight={text}
       />
     ),
   });
@@ -286,20 +286,22 @@ class Index extends Component {
         title: 'Hadir',
         dataIndex: 'hadir',
         key: 'hadir',
+        defaultSortOrder: 'ascend',
+        sorter: (a, b) => a.hadir - b.hadir,
         render: (text, record) => (
           record.hadir === "1" ? "Hadir" : "Belum Hadir"
         ),
-        filters: [
-          {
-            text: 'Belum Hadir',
-            value: '0',
-          },
-          {
-            text: 'Hadir',
-            value: '1',
-          },
-        ],
-        onFilter: (value, record) => record.hadir.indexOf(value) === 0,
+        // filters: [
+        //   {
+        //     text: 'Belum Hadir',
+        //     value: ' ',
+        //   },
+        //   {
+        //     text: 'Hadir',
+        //     value: '1',
+        //   },
+        // ],
+        // onFilter: (value, record) => record.hadir.indexOf(value) === 0,
       },
 
       // {
