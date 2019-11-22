@@ -289,6 +289,17 @@ class Index extends Component {
         render: (text, record) => (
           record.hadir === "1" ? "Hadir" : "Belum Hadir"
         ),
+        filters: [
+          {
+            text: 'Belum Hadir',
+            value: '0',
+          },
+          {
+            text: 'Hadir',
+            value: '1',
+          },
+        ],
+        onFilter: (value, record) => record.hadir.indexOf(value) === 0,
       },
 
       // {

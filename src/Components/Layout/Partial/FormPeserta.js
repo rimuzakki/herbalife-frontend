@@ -41,28 +41,28 @@ class FormPeserta extends Component {
 
               <Form.Item label="ID Herbalife">
                 {getFieldDecorator('id_herbalife', {
-                  rules: [{ required: true, message: 'Please input the ID Herbalife!' }],
+                  // rules: [{ required: true, message: 'Please input the ID Herbalife!' }],
                   initialValue: data.id_herbalife,
                 })(<Input />)}
               </Form.Item>
 
               <Form.Item label="Nama">
                 {getFieldDecorator('nama', {
-                  rules: [{ required: true, message: 'Please input the ID Herbalife!' }],
+                  // rules: [{ required: true, message: 'Please input the ID Herbalife!' }],
                   initialValue: data.nama,
                 })(<Input />)}
               </Form.Item>
 
               <Form.Item label="No Telepon">
                 {getFieldDecorator('no_telp', {
-                  rules: [{ required: true, message: 'Please input the ID Herbalife!' }],
+                  // rules: [{ required: true, message: 'Please input the ID Herbalife!' }],
                   initialValue: data.no_telp,
                 })(<Input />)}
               </Form.Item>
 
               <Form.Item label="Email">
                 {getFieldDecorator('email', {
-                  rules: [{ required: true, message: 'Please input the ID Herbalife!' }],
+                  // rules: [{ required: true, message: 'Please input the ID Herbalife!' }],
                   initialValue: data.email,
                 })(<Input />)}
               </Form.Item>
